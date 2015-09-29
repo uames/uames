@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
+encoding//src/main/java/com/uames/util/Configer.java=UTF-8
+encoding//src/main/java/com/uames/util/JSONUtils.java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/main/webapp/WEB-INF/view/error/404.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/view/error/505.jsp=UTF-8
+encoding//src/main/webapp/css/default.css=UTF-8
+encoding//src/test/java=UTF-8
+encoding/<project>=UTF-8
+separateDerivedEncodings=true

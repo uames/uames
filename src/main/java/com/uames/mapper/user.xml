@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uames.dao.UserDao">
+    
+
+	<sql id="userColumns">
+		ID,
+		name,
+		password,
+		show_name AS showName,
+		email,
+		description,
+		image
+	</sql>
+	
+	<select id="getUser" parameterType="com.uames.vo.User" resultType="com.uames.vo.User">
+		SELECT 
+			<include refid="userColumns"/>
+		FROM
+			tb_user
+		WHERE
+			1=1
+			<if test="password != null">
+				AND password=#{password}
+			</if>
+			<if test="name != null">
+				AND name=#{name}
+			</if>
+			<if test="id != null">
+				AND id=#{id}
+			</if>
+			
+	</select>
+	
+	<!-- 更新用户信息 -->
+	<update id="updateUser" parameterType="com.uames.vo.User">
+		UPDATE tb_user SET
+		<if test="showName != null and showName != '' ">
+			show_name=#{showName}
+		</if>		
+		<if test="email != null and email != '' ">
+			,email=#{email}
+		</if>	
+		<if test="description != null and description != '' ">
+			,description=#{description}
+		</if>
+		<if test="image != null and image != '' ">
+			,image=#{image}
+		</if>
+		<if test="name != null and name != '' ">
+			name=#{name}
+		</if>	
+		<if test="password != null and password != '' ">
+			,password=#{password}
+		</if>					
+		WHERE id=#{id}	
+	</update>
+</mapper>

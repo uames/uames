@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uames.dao.FriendlyLinkDao">
+   
+	<sql id="friendlyLinkColumns">
+		ID,
+		name,
+		link
+	</sql>
+
+	<!-- 检索所有友情链接 -->
+	<select id="getFriendlyLinks" resultType="com.uames.vo.FriendlyLink">
+	    SELECT 
+			<include refid="friendlyLinkColumns"/>
+		FROM
+			tb_friendly_link
+	</select>
+	
+	<!-- 删除一条友情链接 -->
+	<delete id="deleteFriendLink" parameterType="com.uames.vo.FriendlyLink">
+		DELETE FROM tb_friendly_link where id=#{id}
+	</delete>
+	
+	<!-- 添加新链接 -->
+	<insert id="addFriendlyLink" parameterType="com.uames.vo.FriendlyLink">
+		INSERT INTO tb_friendly_link(
+			name,link
+		) VALUES (
+			#{name},#{link}
+		)
+	</insert>
+	
+	<!-- 更新链接 -->
+	<update id="updateFriendLink" parameterType="com.uames.vo.FriendlyLink">
+		UPDATE tb_friendly_link SET 
+		<if test="name != null">
+			name=#{name},
+		</if>
+		<if test="link != null">
+			link=#{link}
+		</if>	
+		WHERE id=#{id}
+	</update>
+
+</mapper>

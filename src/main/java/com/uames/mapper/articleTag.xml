@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uames.dao.ArticleTagDao">
+    
+
+	<sql id="articleTagColumns">
+		ID,
+		name,
+		description
+	</sql>
+	
+	<!-- 增加Tag -->
+	<insert id="insertTag" parameterType="com.uames.vo.ArticleTag" >
+		INSERT INTO tb_article_tag
+			(name,description)
+		 VALUES
+		 	(#{name},#{description})
+	</insert>
+	
+	<!-- 删除一条tag -->
+	<delete id="deleteTag" parameterType="com.uames.vo.ArticleTag">
+		DELETE FROM tb_article_tag WHERE id=#{id} 
+	</delete>
+	
+	<!-- 删除文章tag关系 -->
+	<delete id="deleteArticleTag" parameterType="com.uames.vo.RelArticleTag">
+		DELETE FROM rel_article_tag WHERE 
+		<if test="id != null">
+			id=#{id}		
+		</if>
+		<if test="articleId != null">
+			article_id = #{articleId}
+		</if>
+	</delete>
+	
+		<!-- 增加Tag -->
+	<insert id="insertArticleTag" parameterType="com.uames.vo.RelArticleTag" >
+		INSERT INTO rel_article_tag
+			(article_id,tag_id)
+		 VALUES
+		 	(#{articleId},#{tagId})
+	</insert>
+	
+	<!-- 更新tag -->
+	<update id="updateArticleTag" parameterType="com.uames.vo.ArticleTag" >
+		UPDATE tb_article_tag SET 
+		<if test="name != null">
+			name = #{name}
+		</if>
+		<if test="description != null">
+			description = #{description}
+		</if>
+		WHERE id = #{id}
+	</update>
+
+	<!-- 查询全部文章标签信息并统计文章数量 -->
+	<select id="queryAllTags" resultType="com.uames.dto.ArticleTagDto">		
+	    SELECT 
+			<include refid="articleTagColumns"/>
+			,(
+				SELECT COUNT(id) FROM rel_article_tag 
+				WHERE rel_article_tag.tag_id = tb_article_tag.id
+			 )	AS COUNT
+		FROM
+			tb_article_tag
+		ORDER BY COUNT DESC
+	</select>
+	
+	<!-- 检索某一文章的标签信息 -->
+	<select id="queryArticleTags" parameterType="java.util.Map" 
+		resultType="com.uames.vo.ArticleTag">
+	    SELECT 
+			tb_article_tag.*
+		FROM tb_article_tag, rel_article_tag 
+		WHERE tb_article_tag.id = rel_article_tag.tag_id 
+		AND rel_article_tag.article_id = #{articleId}
+	</select>
+	
+</mapper>
